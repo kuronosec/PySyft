@@ -21,6 +21,8 @@ from syft.messaging.message import TensorCommandMessage
 from syft.generic.abstract.tensor import AbstractTensor
 from syft.generic.pointers.pointer_tensor import PointerTensor
 from syft.workers.base import BaseWorker
+from syft.workers.abstract import AbstractWorker
+
 
 logger = logging.getLogger(__name__)
 
@@ -344,3 +346,19 @@ class WebsocketClientWorker(BaseWorker):
         out += " #tensors remote: " + str(self.tensors_count_remote())
         out += ">"
         return out
+
+    @staticmethod
+    def simplify(_worker: AbstractWorker, worker: "WebsocketClientWorker") -> tuple:
+        return BaseWorker.simplify(_worker, worker)
+
+    @staticmethod
+    def detail(worker: AbstractWorker, worker_tuple: tuple) -> Union["WebsocketClientWorker", int, str]:
+        return BaseWorker.detail(worker, worker_tuple)
+
+    @staticmethod
+    def force_simplify(_worker: AbstractWorker, worker: AbstractWorker) -> tuple:
+        return BaseWorker.force_simplify(_worker, worker)
+
+    @staticmethod
+    def force_detail(worker: AbstractWorker, worker_tuple: tuple) -> "WebsocketClientWorker":
+        return BaseWorker.force_detail(worker, worker_tuple)

@@ -12,6 +12,7 @@ from syft.execution.plan import Plan
 from syft.codes import REQUEST_MSG, RESPONSE_MSG
 from syft.workers.websocket_client import WebsocketClientWorker
 from syft.grid.authentication.credential import AbstractCredential
+from syft.workers.abstract import AbstractWorker
 
 
 class NodeClient(WebsocketClientWorker):
@@ -314,3 +315,19 @@ class NodeClient(WebsocketClientWorker):
 
     def __str__(self) -> str:
         return f"<Federated Worker id:{self.id}>"
+
+    @staticmethod
+    def simplify(_worker: AbstractWorker, worker: "NodeClient") -> tuple:
+        return WebsocketClientWorker.simplify(_worker, worker)
+
+    @staticmethod
+    def detail(worker: AbstractWorker, worker_tuple: tuple) -> Union["NodeClient", int, str]:
+        return WebsocketClientWorker.detail(worker, worker_tuple)
+
+    @staticmethod
+    def force_simplify(_worker: AbstractWorker, worker: AbstractWorker) -> tuple:
+        return WebsocketClientWorker.force_simplify(_worker, worker)
+
+    @staticmethod
+    def force_detail(worker: AbstractWorker, worker_tuple: tuple) -> "NodeClient":
+        return WebsocketClientWorker.force_detail(worker, worker_tuple)
